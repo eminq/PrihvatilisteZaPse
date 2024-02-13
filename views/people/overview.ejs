@@ -1,0 +1,32 @@
+<%layout('layouts/boilerplate')%>
+<style>
+    
+
+</style>
+
+<body class="container mt-4">
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#ID</th>
+            <th scope="col">First name</th>
+            <th scope="col">Last name</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Address</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% people.forEach((person) => { %>
+          <tr>
+            <th scope="row"><%= person.id%></th>
+            <td><%= person.first_name%></td>
+            <td><%= person.last_name%></td>
+            <td><%= person.phone%></td>
+            <td><%= person.email%></td>
+            <td><%= person.address%></td>
+          </tr>
+        <% }) %>
+        </tbody>
+      </table>

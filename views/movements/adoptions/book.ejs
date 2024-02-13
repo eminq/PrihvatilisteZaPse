@@ -1,0 +1,43 @@
+<%layout('layouts/boilerplate')%>
+<style>
+    
+
+</style>
+
+<body class="container mt-4">
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#ID</th>
+            <th scope="col">Dog</th>
+            <th scope="col">Person</th>
+            <th scope="col">Date</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Comment</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% adoptions.forEach((adoption) => { %>
+          <tr>
+            <th scope="row"><%= adoption.id%></th>
+            <% dogs.forEach((dog) => { %>
+                <% if (dog.id === adoption.dogId) {  %>
+                <td><%= dog.name %></td> 
+                <% } %>
+            <% }) %>
+            <% people.forEach((person) => { %>
+                <% if (person.id === adoption.personId) {  %>
+                <td><%= person.first_name %> <%= person.last_name %></td> 
+                <% } %>
+            <% }) %>
+            <td><%= new Date(adoption.adoption_date).toLocaleDateString('en-GB') %></td>
+            <td><%= adoption.cost %></td>
+            <td><%= adoption.comment %></td>
+            <td><a href="/adoptions/remove/<%= adoption.id %>">Return</a></td>
+          </tr>
+        <% }) %>
+        </tbody>
+      </table>
+

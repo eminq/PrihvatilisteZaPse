@@ -1,0 +1,39 @@
+<%layout('layouts/boilerplate')%>
+<style>
+    /* Custom styling for limiting card size */
+    .card {
+        width: 100%;
+        max-width: 5cm;
+    }
+
+    .card img {
+        max-width: 100%;
+        max-height: 5cm;
+        object-fit: cover;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+</style>
+
+<body class="container mt-4">
+
+    <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-4">
+        <% dogs.forEach((dog) => { %>
+            <div class="col">
+                <a href="/dogs/<%= dog.id %>"> 
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="<%= dog.name %>">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= dog.name %></h5>
+                            <p class="card-text">Status: <%= dog.status %></p>
+                            <p class="card-text">Entry Date: <%= new Date(dog.entry_date).toLocaleDateString('en-GB') %></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        <% }); %>
+    </div>

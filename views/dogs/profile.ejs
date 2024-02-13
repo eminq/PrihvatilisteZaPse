@@ -1,0 +1,113 @@
+<%layout('layouts/boilerplate')%>
+<style>
+
+
+</style>
+
+<body class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-4">
+
+            <div class="mb-3">
+                <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="<%= dog.name %> Image" id="dogImage" class="img-fluid mb-2" style="max-height: 200px;">
+                <!-- <input type="file" class="form-control" id="dogImageInput" name="dogImageInput" accept="image/*"> -->
+            </div>
+
+            <div class="mb-3">
+                <p class="display-6 fs-5"><b>Id:</b> <%= dog.id %></p>
+                <p class="display-6 fs-5"><b>Status:</b> <%= dog.status %></p>
+                <p class="display-6 fs-5"><b>Entry date:</b> <%= new Date(dog.entry_date).toLocaleDateString('en-GB') %></p>
+                <p class="display-6 fs-5"><b>Entry type:</b> <%= dog.entry_type %></p>
+            </div>
+
+            
+        </div>
+
+        <div class="col-8 d-flex">
+            <hr>
+            <form id="dogProfileForm">
+
+                <div class="d-flex">
+                    <div class="mb-3 me-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="<%= dog.name %>" readonly>
+                    </div>
+
+                    <div class="mb-3 me-3">
+                        <label for="unitId" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="unitId" name="unitId" value="<%= dog.unitId %>" readonly>
+                    </div>
+
+                    <div class="mb-3 me-3">
+                        <label for="birth_date" class="form-label">Birth Date</label>
+                        <% if (dog.birth_date === null) { %>
+                        <input type="text" class="form-control" id="birth_date" name="birth_date" value="" readonly>
+                        <% } else { %>
+                        <input type="text" class="form-control" id="birth_date" name="birth_date" value="<%= new Date(dog.birth_date).toLocaleDateString('en-GB') %>" readonly>
+                        <% }  %>
+                    </div>
+
+                    <div class="mb-3 me-3">
+                        <label for="age" class="form-label">Age</label>
+                        <input type="text" class="form-control" id="age" name="age" value="<%= dog.age %>" readonly>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <button type="button" class="btn btn-primary" id="editButton">Edit</button>
+                    <button type="button" class="btn btn-success" id="saveButton" style="display: none;">Save</button>
+                </div>
+
+                <hr>
+
+            </form>
+        </div>
+
+
+            
+
+    </div>
+
+    <script>
+        document.getElementById('editButton').addEventListener('click', function () {
+            enableFormEditing();
+        });
+
+        document.getElementById('saveButton').addEventListener('click', function () {
+            saveFormData();
+        });
+
+        function enableFormEditing() {
+            document.querySelectorAll('#dogProfileForm input').forEach(function (input) {
+                input.removeAttribute('readonly');
+            });
+
+            //document.getElementById('dogImageInput').removeAttribute('disabled');
+
+            document.getElementById('editButton').style.display = 'none';
+            document.getElementById('saveButton').style.display = 'block';
+        }
+
+        function saveFormData() {
+            // Implement logic to save the form data
+            console.log('Form data saved!');
+
+            // Disable form editing after saving
+            document.querySelectorAll('#dogProfileForm input').forEach(function (input) {
+                input.setAttribute('readonly', true);
+            });
+
+            //document.getElementById('dogImageInput').setAttribute('disabled', true);
+
+            document.getElementById('editButton').style.display = 'block';
+            document.getElementById('saveButton').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,63 @@
+<%layout('layouts/boilerplate')%>
+<style>
+
+
+</style>
+
+<body class="container mt-4"> 
+
+    
+    <div class="row mt-4 justify-content-center">
+        <div class="col-md-6"> 
+
+            <form action="/people/add" method="POST">
+
+
+                <div class="mb-3">
+                    <label for="first_name" class="form-label">First name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="first_name" name="first_name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">Last name<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                </div>
+
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" class="form-control" id="address" name="address">
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="birth_date" class="form-label">Birth Date</label>
+                        <input type="date" class="form-control" id="birth_date" name="birth_date">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="phone" class="form-label">Phone number</label>
+                        <input type="number" class="form-control" id="phone" name="phone">
+                    </div>
+                </div>
+
+                
+                <div class="mb-3">
+                    <input type="number" class="form-control" id="shelterId" name="shelterId" value="1" hidden>
+                </div>
+
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Add Person</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+</body>
