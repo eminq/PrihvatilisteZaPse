@@ -1,4 +1,4 @@
-const Adoption = require('../models/adoption');
+/*const Adoption = require('../models/adoption');
 const adoptionService = require('../services/adoption');
 const dogService = require('../services/dog');
 const personService = require('../services/person');
@@ -10,7 +10,7 @@ module.exports.renderBook = async(req,res) => {
     const allAdoptions = await adoptionService.getAdoptions();
     const adoptions = allAdoptions.filter(a => dogIds.includes(a.dogId));
     const people = await personService.getPeople();
-    res.render('movements/adoptions/book', { adoptions, dogs, people }); 
+    res.render('medical/vaccination/book', { vaccination, dogs, people }); 
 }
 
 module.exports.renderAddForm = async(req,res) => {
@@ -19,10 +19,10 @@ module.exports.renderAddForm = async(req,res) => {
     const adoptableDogs = dogs.filter(d => d.status === 'In shelter');
     console.log(adoptableDogs);
     const people = await personService.getPeople();
-    res.render('movements/adoptions/new', {dogs: adoptableDogs, people});
+    res.render('medical/adoptions/new', {dogs: adoptableDogs, people});
 }
 
-module.exports.addAdoption = async(req,res) => {
+module.exports.addVaccionation = async(req,res) => {
     console.log('Received form data:', req.body);
     try{
         let { adoption_date, comment, cost, dogId, personId } = req.body;
@@ -49,18 +49,4 @@ module.exports.addAdoption = async(req,res) => {
             message: 'Error!'
         });
     }
-} 
-
-module.exports.removeAdoption = async(req,res) => {
-    try{
-        const { id } = req.params;
-        console.log(id);
-        const adoption = await adoptionService.findAdoption(id);
-        console.log(adoption);
-        await dogService.editDogStatus(adoption.dogId, 'In shelter');
-        await adoptionService.removeAdoption(id);  
-        res.redirect('/adoptions/book');
-    }catch(err){
-        return res.send('Error: ', err);
-    }
-}
+} */

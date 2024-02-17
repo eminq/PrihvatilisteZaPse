@@ -3,7 +3,8 @@ const personService = require('../services/person');
 const valuesConfig = require('../valuesConfig');
 
 module.exports.renderOverview = async(req,res) => {
-    const people = await personService.getPeople();
+    const allPeople = await personService.getPeople();
+    const people = allPeople.filter(p => p.shelterId === req.user.shelterId);
     res.render('people/overview', { people });
 }
 

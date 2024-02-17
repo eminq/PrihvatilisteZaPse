@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 const dog = require('../controllers/dog');
+const { checkAuthenticated } = require('../passportConfig');
 
 // OVERVIEW
-router.get('/overview', dog.renderOverview)
+router.get('/overview', checkAuthenticated, dog.renderOverview)
 // ADD A DOG FORM
 router.get('/new', dog.renderAddForm)
 // DOG PROFILE

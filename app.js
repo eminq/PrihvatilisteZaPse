@@ -7,6 +7,12 @@ const flash = require('connect-flash');
 const ejsMate = require('ejs-mate'); 
 const path = require('path');
 
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+//const LocalStrategy = require('passport-local');
+const userController = require('./controllers/user');
+const User = require('./models/user');
+
 const userRouter = require('./routes/user');
 const dogRouter = require('./routes/dog');
 const unitRouter = require('./routes/unit');
@@ -25,6 +31,7 @@ function jwtSignUser(user){
 }
 
 const sessionConfig = {
+    name: "_session",
     secret: 'thisismytopsecret',
     resave: false,
     saveUninitialized: true,
@@ -44,6 +51,40 @@ app.use(express.urlencoded({extended:true}));
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+// passport
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(async (username, password, done) => {
+    try {
+      const user = await userController.tryLogin(username, password);
+
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username or password.' });
+      }
+      //console.log("Returned user: ",user);
+      return done(null, user);
+    } catch (err) {
+      return done(err);
+    }
+  })
+);
+
+passport.serializeUser( (User, done) => {
+    done(null, User)
+})
+passport.deserializeUser((userObj, done) => {
+    done (null, userObj )
+})
+
+app.use((req,res,next) => {
+    console.log('req:', req.user);
+    res.locals.currentUser = req.user;
+    console.log('Role', res.locals.currentUser);
+    //res.locals.success = req.flash('success');
+    //res.locals.error = req.flash('error');
+    next();
+})
 
 
 app.use('/users', userRouter);

@@ -1,35 +1,16 @@
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const ensureAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+      console.log('WHAT', req);
+    return next(); 
+  }
+  res.redirect('/users/login');
+};
 
-const userController = require('./controllers/user');
-
-passport.use(
-    new LocalStrategy(async (username, password, done) => {
-        try {
-          const user = await userController.tryLogin(username, password);
-    
-          if (!user) {
-            return done(null, false, { message: 'Incorrect username or password.' });
-          }
-    
-          return done(null, user);
-        } catch (err) {
-          return done(err);
-        }
-      })
-  );
-  
-passport.serializeUser((user, done) => {
-done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-try {
-    const user = await userController.findUserById(id);
-    done(null, user);
-} catch (err) {
-    done(err);
+const checkAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) { return next() }
+  res.redirect("/users/login")
 }
-});
-  
-module.exports = passport;
+
+module.exports = {
+  checkAuthenticated,
+}

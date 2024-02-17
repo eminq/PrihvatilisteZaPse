@@ -2,7 +2,7 @@ const User = require('../models/user');
 const userService = require('../services/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const passport = require('../passportConfig');
+const passport = require('passport');
 
 function jwtSignUser(user){
     const  WEEK = 60*60*24*7;
@@ -19,43 +19,6 @@ module.exports.renderLoginForm = (req,res) => {
     res.render('users/login');
 }
 
-module.exports.login = passport.authenticate('local', {
-    successRedirect: '/dogs/overview',
-    failureRedirect: '/users/login',
-    failureFlash: true, // Enable flash messages for failed login attempts
-  });
-
-// module.exports.login = async (req,res) => {
-//     const { username, password } = req.body;
-//     const users = await userService.getUsers();
-//     for(let user of users){
-//         if(user.username === username){
-//             const hash = await bcrypt.compare(password, user.password);
-//             if(hash){
-//                 console.log('logged in');
-//                 req.session.user = user;
-//                 console.log('User set: ', req.session.user)
-//                 return res.redirect('/dogs/overview');
-//                 // return res.json({
-//                 //     response: true,
-//                 //     user: user,
-//                 //     token: jwtSignUser(user)
-//                 // });
-//             }else{
-//                 console.log('incorrect credentials');
-//                 return res.json({
-//                     response: false,
-//                     message: 'Incorrect credentials!'
-//                 });
-//             }
-//         }
-//     }
-//     return res.json({
-//         response: false,
-//         message: 'Incorrect credentials!'
-//     });
-// };
-
 module.exports.findUserById = async (id) => {
     try{
         const user = await userService.findUser(id);
@@ -63,11 +26,10 @@ module.exports.findUserById = async (id) => {
     }catch(err){
         return res.json({
             response: false,
-            message: 'Error!'
+            message: 'Error!' 
         });
     }
 }
-
 
 module.exports.tryLogin = async (username, password) => {
     const users = await userService.getUsers();
@@ -75,6 +37,7 @@ module.exports.tryLogin = async (username, password) => {
         if(user.username === username){
             const hash = await bcrypt.compare(password, user.password);
             if(hash){
+                //console.log('USER:', user);
                 return user;
             }else{
                 console.log('incorrect credentials');
@@ -95,7 +58,7 @@ module.exports.tryLogin = async (username, password) => {
 module.exports.logout = (req,res) => {
     req.logout(function(err){
         if(err) return next(err);
-        req.flash('success', 'You are logged out!');
+        //req.flash('success', 'You are logged out!');
         res.redirect('/users/login');
     });
 }

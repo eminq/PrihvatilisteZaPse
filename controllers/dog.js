@@ -5,13 +5,18 @@ const valuesConfig = require('../valuesConfig');
 
 module.exports.renderOverview = async(req,res) => {
     console.log('User:', req.user);
-    const dogs = await dogService.getDogs();
-    res.render('dogs/overview', { dogs });
+    const allDogs = await dogService.getDogs();
+    if(req.user){
+        const dogs = allDogs.filter(d => d.shelterId === req.user.shelterId);
+        res.render('dogs/overview', { dogs });
+    }
+    return ;
 }
 
 module.exports.renderAddForm = async(req,res) => {
     const unitsJson = await unitService.getUnits();
-    const units = Object.values(unitsJson);
+    const allUnits = Object.values(unitsJson);
+    const units = allUnits.filter(u => u.shelterId === req.user.shelterId);
     console.log(units);
     const freeUnits = units.filter(u => u.taken === false);
     console.log('free: ', freeUnits);
