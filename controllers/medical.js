@@ -1,42 +1,50 @@
-/*const Adoption = require('../models/adoption');
-const adoptionService = require('../services/adoption');
+const Vaccination = require('../models/vaccination');
 const dogService = require('../services/dog');
 const personService = require('../services/person');
+const vaccService = require('../services/vaccination');
+const valuesConfig = require('../valuesConfig');
 
-module.exports.renderBook = async(req,res) => {
-    const allDogs = await dogService.getDogs();
-    const dogs = allDogs.filter(d => d.shelterId === req.user.shelterId);
-    const dogIds = dogs.map(d => d.id);
-    const allAdoptions = await adoptionService.getAdoptions();
-    const adoptions = allAdoptions.filter(a => dogIds.includes(a.dogId));
-    const people = await personService.getPeople();
-    res.render('medical/vaccination/book', { vaccination, dogs, people }); 
-}
 
-module.exports.renderAddForm = async(req,res) => {
+module.exports.renderVaccBook = async(req,res) => {
     const dogsJson = await dogService.getDogs();
     const dogs = Object.values(dogsJson).filter(d => d.shelterId === req.user.shelterId);
-    const adoptableDogs = dogs.filter(d => d.status === 'In shelter');
-    console.log(adoptableDogs);
+    const dogIds = dogs.map(d => d.id);
+    const vaccsJson = await vaccService.getVaccs();
+    let vaccs;
+    if(vaccsJson){
+        vaccs = Object.values(vaccsJson).filter(v => dogIds.includes(v.dogId));
+    }else{
+        vaccs = [];
+    }
+    console.log('Vaccs', vaccs);
     const people = await personService.getPeople();
-    res.render('medical/adoptions/new', {dogs: adoptableDogs, people});
+    res.render('medical/vaccinations/book', { vaccs, dogs, people }); 
+}
+
+module.exports.renderAddVaccForm = async(req,res) => {
+    const dogsJson = await dogService.getDogs();
+    const dogs = Object.values(dogsJson).filter(d => d.shelterId === req.user.shelterId);
+    const peopleJson = await personService.getPeople();
+    const people = Object.values(peopleJson).filter(p => p.shelterId === req.user.shelterId);
+    res.render('medical/vaccinations/new', { dogs, people, vaccType: valuesConfig.vaccination_type });
 }
 
 module.exports.addVaccionation = async(req,res) => {
     console.log('Received form data:', req.body);
     try{
-        let { adoption_date, comment, cost, dogId, personId } = req.body;
+        let { required, performed, cost, vaccionation_type, expire_date, manufacturer, comment, dogId, personId } = req.body;
         comment = comment === '' ? null : comment;
         cost = cost === '' ? null : parseFloat(cost);
+        performed = performed === '' ? null : performed;
+        manufacturer = manufacturer === '' ? null : manufacturer;
         dogId = parseInt(dogId);
-        personId = parseInt(personId);
-        const newAdoption = new Adoption(adoption_date, comment, cost, dogId, personId);
-        console.log(newAdoption);
-        const result = await adoptionService.addAdoption(newAdoption);
-        const adoption = result[0];
+        personId = personId === '' ? null : parseInt(personId);
+        const newVacc = new Vaccination(required, performed, cost, vaccionation_type, expire_date, manufacturer, comment, dogId, personId);
+        console.log(newVacc);
+        const result = await vaccService.addVacc(newVacc);
+        const vacc = result[0];
         if(result){
-            dogService.editDogStatus(dogId, 'Adopted');
-            res.redirect('/adoptions/book');
+            res.redirect('/medical/vaccination/book');
         }else{
             return res.json({
                 response: false,
@@ -49,4 +57,4 @@ module.exports.addVaccionation = async(req,res) => {
             message: 'Error!'
         });
     }
-} */
+} 

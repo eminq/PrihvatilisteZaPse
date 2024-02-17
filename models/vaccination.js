@@ -1,5 +1,5 @@
 class Vaccination{
-    constructor(required, performed, cost, vaccionation_type, expire_date, manufacturer, comment, dogId, personId){
+    constructor(required, performed=null, cost=null, vaccionation_type, expire_date, manufacturer=null, comment=null, dogId, personId=null){
         this.required = required;
         this.performed = performed;
         this.cost = cost;

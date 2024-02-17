@@ -7,13 +7,13 @@ const { checkAuthenticated } = require('../passportConfig');
 // OVERVIEW
 router.get('/overview', checkAuthenticated, dog.renderOverview)
 // ADD A DOG FORM
-router.get('/new', dog.renderAddForm)
+router.get('/new', checkAuthenticated, dog.renderAddForm)
 // DOG PROFILE
-router.get('/:id', dog.renderProfile)
+router.get('/:id', checkAuthenticated, dog.renderProfile)
 // GET ALL DOGS
 router.get('/', dog.getDogs);
 // ADD A DOG
-router.post('/add', dog.addDog);
+router.post('/add', checkAuthenticated, dog.addDog);
 
 
 

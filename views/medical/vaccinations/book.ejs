@@ -1,0 +1,48 @@
+<%layout('layouts/boilerplate')%>
+<style>
+    
+
+</style>
+
+<body class="container mt-4">
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#ID</th>
+            <th scope="col">Dog</th>
+            <th scope="col">Vet</th>
+            <th scope="col">Type</th>
+            <th scope="col">Required</th>
+            <th scope="col">Performed</th>
+            <th scope="col">Expires</th>
+            <th scope="col">Manufacturer</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Comment</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% vaccs.forEach((vacc) => { %>
+          <tr>
+            <th scope="row"><%= vacc.id%></th>
+            <% dogs.forEach((dog) => { %>
+                <% if (dog.id === vacc.dogId) {  %>
+                <td><%= dog.name %></td> 
+                <% } %>
+            <% }) %>
+            <% people.forEach((person) => { %> 
+                <% if (person.id === vacc.personId) {  %>
+                <td><%= person.first_name %> <%= person.last_name %></td> 
+                <% } %>
+            <% }) %>
+            <td><%= vacc.vaccination_type %></td>
+            <td><%= new Date(vacc.required).toLocaleDateString('en-GB') %></td>
+            <td><%= new Date(vacc.performed).toLocaleDateString('en-GB') %></td>
+            <td><%= new Date(vacc.expire_date).toLocaleDateString('en-GB') %></td>
+            <td><%= vacc.manufacturer %></td>
+            <td><%= vacc.cost %></td>
+            <td><%= vacc.comment %></td>
+          </tr>
+        <% }) %>
+        </tbody>
+      </table>

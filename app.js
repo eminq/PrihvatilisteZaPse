@@ -18,6 +18,7 @@ const dogRouter = require('./routes/dog');
 const unitRouter = require('./routes/unit');
 const personRouter = require('./routes/person');
 const adoptionRouter = require('./routes/adoption');
+const medicalRouter = require('./routes/medical');
 
 
 const app = express();
@@ -92,6 +93,7 @@ app.use('/dogs', dogRouter);
 app.use('/units', unitRouter);
 app.use('/people', personRouter);
 app.use('/adoptions', adoptionRouter);
+app.use('/medical', medicalRouter);
 
 
 app.get('/' , (req,res) => {

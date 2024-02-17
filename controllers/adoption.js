@@ -18,7 +18,8 @@ module.exports.renderAddForm = async(req,res) => {
     const dogs = Object.values(dogsJson).filter(d => d.shelterId === req.user.shelterId);
     const adoptableDogs = dogs.filter(d => d.status === 'In shelter');
     console.log(adoptableDogs);
-    const people = await personService.getPeople();
+    const peopleJson = await personService.getPeople();
+    const people = Object.values(peopleJson).filter(p => p.shelterId === req.user.shelterId);
     res.render('movements/adoptions/new', {dogs: adoptableDogs, people});
 }
 

@@ -1,0 +1,82 @@
+<%layout('layouts/boilerplate')%>
+<style>
+
+
+</style>
+
+<body class="container mt-4"> 
+
+    
+    <div class="row mt-4 justify-content-center">
+        <div class="col-md-6"> 
+
+            <form action="/medical/vaccination/add" method="POST">
+
+
+                <div class="mb-3">
+                    <label for="dog" class="form-label">Dog</label>
+                    <select name="dogId" id="dog" class="form-control">
+                        <% dogs.forEach((dog) => { %>
+                            <option value="<%= dog.id %>"><%= dog.id %> - <%= dog.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="person" class="form-label">Vet</label>
+                    <select name="personId" id="person" class="form-control">
+                        <% people.forEach((person) => { %>
+                            <option value="<%= person.id %>"><%= person.first_name %> <%= person.last_name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="required" class="form-label">Required <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" id="required" name="required" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="performed" class="form-label">Performed </label>
+                    <input type="date" class="form-control" id="performed" name="performed" >
+                </div>
+
+                <div class="mb-3">
+                    <label for="vaccination_type" class="form-label">Vaccination type</label>
+                    <select name="vaccination_type" id="vaccination_type" class="form-control">
+                        <% vaccType.forEach((type) => { %>
+                            <option value="<%= type %>"><%= type %></option>
+                        <% }); %>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="expire_date" class="form-label">Expires<span class="text-danger">*</span> </label>
+                    <input type="date" class="form-control" id="expire_date" name="expire_date" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="manufacturer" class="form-label">Manufacturer </label>
+                    <input type="text" class="form-control" id="manufacturer" name="manufacturer" >
+                </div>
+
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Comment</label>
+                    <input type="text" class="form-control" id="comment" name="comment">
+                </div>
+
+                <div class="mb-3">
+                    <label for="cost" class="form-label">Cost</label>
+                    <input type="number" class="form-control" id="cost" name="cost" step="0.1">
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Add vaccination</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+</body>
